@@ -41,7 +41,9 @@ public class ChatHandler implements ChatService.Iface{
     @Override
     public boolean join(String channelname, String nickname) throws TException {
         if (user_membership.containsKey(nickname)){
-            user_membership.get(nickname).add(channelname);
+            if (!user_membership.get(nickname).contains(channelname))
+                user_membership.get(nickname).add(channelname);
+            
             return true;
         }else{
             return false;
@@ -62,6 +64,7 @@ public class ChatHandler implements ChatService.Iface{
     public boolean sendall(String message, String nickname) throws TException {
         int allChannel = user_membership.get(nickname).size();
         for (int i = 0; i < allChannel; i++){
+            
             sendto(message, user_membership.get(nickname).get(i), nickname);
         }
         return true;

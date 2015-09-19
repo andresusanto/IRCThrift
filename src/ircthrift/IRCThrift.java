@@ -6,6 +6,8 @@
 
 package ircthrift;
 
+import java.util.List;
+import java.util.Scanner;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
@@ -32,7 +34,19 @@ public class IRCThrift {
         TProtocol protocol = new  TBinaryProtocol(new TFramedTransport(transport));
         ChatService.Client client = new ChatService.Client(protocol);
         
-        client.nick("AB");
+        client.nick("ASS");
+        
+        client.join("KURATOR123", "ASS");
+        client.sendall("Coba AA", "ASS");
+        client.sendall("Mantab", "ASS");
+        
+        Scanner scn = new Scanner(System.in);
+        
+        scn.nextInt();
+        
+        List<String> msg = client.getmessage("ASS");
+        for (int i = 0; i < msg.size(); i++)
+            System.out.println(msg.get(i));
     }
     
 }
