@@ -41,15 +41,15 @@ public class ChatService {
 
     public boolean nick(String nickname) throws org.apache.thrift.TException;
 
-    public boolean join(String channelname) throws org.apache.thrift.TException;
+    public boolean join(String channelname, String nickname) throws org.apache.thrift.TException;
 
-    public boolean leave(String channelname) throws org.apache.thrift.TException;
+    public boolean leave(String channelname, String nickname) throws org.apache.thrift.TException;
 
-    public boolean sendall(String message) throws org.apache.thrift.TException;
+    public boolean sendall(String message, String nickname) throws org.apache.thrift.TException;
 
-    public boolean sendto(String message, String channelname) throws org.apache.thrift.TException;
+    public boolean sendto(String message, String channelname, String nickname) throws org.apache.thrift.TException;
 
-    public List<String> getmessage() throws org.apache.thrift.TException;
+    public List<String> getmessage(String nickname) throws org.apache.thrift.TException;
 
   }
 
@@ -57,15 +57,15 @@ public class ChatService {
 
     public void nick(String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void join(String channelname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+    public void join(String channelname, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void leave(String channelname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+    public void leave(String channelname, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void sendall(String message, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+    public void sendall(String message, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void sendto(String message, String channelname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+    public void sendto(String message, String channelname, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
-    public void getmessage(org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
+    public void getmessage(String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -112,16 +112,17 @@ public class ChatService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "nick failed: unknown result");
     }
 
-    public boolean join(String channelname) throws org.apache.thrift.TException
+    public boolean join(String channelname, String nickname) throws org.apache.thrift.TException
     {
-      send_join(channelname);
+      send_join(channelname, nickname);
       return recv_join();
     }
 
-    public void send_join(String channelname) throws org.apache.thrift.TException
+    public void send_join(String channelname, String nickname) throws org.apache.thrift.TException
     {
       join_args args = new join_args();
       args.setChannelname(channelname);
+      args.setNickname(nickname);
       sendBase("join", args);
     }
 
@@ -135,16 +136,17 @@ public class ChatService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "join failed: unknown result");
     }
 
-    public boolean leave(String channelname) throws org.apache.thrift.TException
+    public boolean leave(String channelname, String nickname) throws org.apache.thrift.TException
     {
-      send_leave(channelname);
+      send_leave(channelname, nickname);
       return recv_leave();
     }
 
-    public void send_leave(String channelname) throws org.apache.thrift.TException
+    public void send_leave(String channelname, String nickname) throws org.apache.thrift.TException
     {
       leave_args args = new leave_args();
       args.setChannelname(channelname);
+      args.setNickname(nickname);
       sendBase("leave", args);
     }
 
@@ -158,16 +160,17 @@ public class ChatService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "leave failed: unknown result");
     }
 
-    public boolean sendall(String message) throws org.apache.thrift.TException
+    public boolean sendall(String message, String nickname) throws org.apache.thrift.TException
     {
-      send_sendall(message);
+      send_sendall(message, nickname);
       return recv_sendall();
     }
 
-    public void send_sendall(String message) throws org.apache.thrift.TException
+    public void send_sendall(String message, String nickname) throws org.apache.thrift.TException
     {
       sendall_args args = new sendall_args();
       args.setMessage(message);
+      args.setNickname(nickname);
       sendBase("sendall", args);
     }
 
@@ -181,17 +184,18 @@ public class ChatService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendall failed: unknown result");
     }
 
-    public boolean sendto(String message, String channelname) throws org.apache.thrift.TException
+    public boolean sendto(String message, String channelname, String nickname) throws org.apache.thrift.TException
     {
-      send_sendto(message, channelname);
+      send_sendto(message, channelname, nickname);
       return recv_sendto();
     }
 
-    public void send_sendto(String message, String channelname) throws org.apache.thrift.TException
+    public void send_sendto(String message, String channelname, String nickname) throws org.apache.thrift.TException
     {
       sendto_args args = new sendto_args();
       args.setMessage(message);
       args.setChannelname(channelname);
+      args.setNickname(nickname);
       sendBase("sendto", args);
     }
 
@@ -205,15 +209,16 @@ public class ChatService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "sendto failed: unknown result");
     }
 
-    public List<String> getmessage() throws org.apache.thrift.TException
+    public List<String> getmessage(String nickname) throws org.apache.thrift.TException
     {
-      send_getmessage();
+      send_getmessage(nickname);
       return recv_getmessage();
     }
 
-    public void send_getmessage() throws org.apache.thrift.TException
+    public void send_getmessage(String nickname) throws org.apache.thrift.TException
     {
       getmessage_args args = new getmessage_args();
+      args.setNickname(nickname);
       sendBase("getmessage", args);
     }
 
@@ -277,24 +282,27 @@ public class ChatService {
       }
     }
 
-    public void join(String channelname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+    public void join(String channelname, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      join_call method_call = new join_call(channelname, resultHandler, this, ___protocolFactory, ___transport);
+      join_call method_call = new join_call(channelname, nickname, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class join_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String channelname;
-      public join_call(String channelname, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private String nickname;
+      public join_call(String channelname, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.channelname = channelname;
+        this.nickname = nickname;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("join", org.apache.thrift.protocol.TMessageType.CALL, 0));
         join_args args = new join_args();
         args.setChannelname(channelname);
+        args.setNickname(nickname);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -309,24 +317,27 @@ public class ChatService {
       }
     }
 
-    public void leave(String channelname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+    public void leave(String channelname, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      leave_call method_call = new leave_call(channelname, resultHandler, this, ___protocolFactory, ___transport);
+      leave_call method_call = new leave_call(channelname, nickname, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class leave_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String channelname;
-      public leave_call(String channelname, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private String nickname;
+      public leave_call(String channelname, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.channelname = channelname;
+        this.nickname = nickname;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("leave", org.apache.thrift.protocol.TMessageType.CALL, 0));
         leave_args args = new leave_args();
         args.setChannelname(channelname);
+        args.setNickname(nickname);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -341,24 +352,27 @@ public class ChatService {
       }
     }
 
-    public void sendall(String message, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+    public void sendall(String message, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      sendall_call method_call = new sendall_call(message, resultHandler, this, ___protocolFactory, ___transport);
+      sendall_call method_call = new sendall_call(message, nickname, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class sendall_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String message;
-      public sendall_call(String message, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private String nickname;
+      public sendall_call(String message, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.message = message;
+        this.nickname = nickname;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("sendall", org.apache.thrift.protocol.TMessageType.CALL, 0));
         sendall_args args = new sendall_args();
         args.setMessage(message);
+        args.setNickname(nickname);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -373,9 +387,9 @@ public class ChatService {
       }
     }
 
-    public void sendto(String message, String channelname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+    public void sendto(String message, String channelname, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      sendto_call method_call = new sendto_call(message, channelname, resultHandler, this, ___protocolFactory, ___transport);
+      sendto_call method_call = new sendto_call(message, channelname, nickname, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -383,10 +397,12 @@ public class ChatService {
     public static class sendto_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String message;
       private String channelname;
-      public sendto_call(String message, String channelname, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private String nickname;
+      public sendto_call(String message, String channelname, String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.message = message;
         this.channelname = channelname;
+        this.nickname = nickname;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
@@ -394,6 +410,7 @@ public class ChatService {
         sendto_args args = new sendto_args();
         args.setMessage(message);
         args.setChannelname(channelname);
+        args.setNickname(nickname);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -408,21 +425,24 @@ public class ChatService {
       }
     }
 
-    public void getmessage(org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
+    public void getmessage(String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      getmessage_call method_call = new getmessage_call(resultHandler, this, ___protocolFactory, ___transport);
+      getmessage_call method_call = new getmessage_call(nickname, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class getmessage_call extends org.apache.thrift.async.TAsyncMethodCall {
-      public getmessage_call(org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private String nickname;
+      public getmessage_call(String nickname, org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
+        this.nickname = nickname;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getmessage", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getmessage_args args = new getmessage_args();
+        args.setNickname(nickname);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -495,7 +515,7 @@ public class ChatService {
 
       public join_result getResult(I iface, join_args args) throws org.apache.thrift.TException {
         join_result result = new join_result();
-        result.success = iface.join(args.channelname);
+        result.success = iface.join(args.channelname, args.nickname);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -516,7 +536,7 @@ public class ChatService {
 
       public leave_result getResult(I iface, leave_args args) throws org.apache.thrift.TException {
         leave_result result = new leave_result();
-        result.success = iface.leave(args.channelname);
+        result.success = iface.leave(args.channelname, args.nickname);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -537,7 +557,7 @@ public class ChatService {
 
       public sendall_result getResult(I iface, sendall_args args) throws org.apache.thrift.TException {
         sendall_result result = new sendall_result();
-        result.success = iface.sendall(args.message);
+        result.success = iface.sendall(args.message, args.nickname);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -558,7 +578,7 @@ public class ChatService {
 
       public sendto_result getResult(I iface, sendto_args args) throws org.apache.thrift.TException {
         sendto_result result = new sendto_result();
-        result.success = iface.sendto(args.message, args.channelname);
+        result.success = iface.sendto(args.message, args.channelname, args.nickname);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -579,7 +599,7 @@ public class ChatService {
 
       public getmessage_result getResult(I iface, getmessage_args args) throws org.apache.thrift.TException {
         getmessage_result result = new getmessage_result();
-        result.success = iface.getmessage();
+        result.success = iface.getmessage(args.nickname);
         return result;
       }
     }
@@ -706,7 +726,7 @@ public class ChatService {
       }
 
       public void start(I iface, join_args args, org.apache.thrift.async.AsyncMethodCallback<Boolean> resultHandler) throws TException {
-        iface.join(args.channelname,resultHandler);
+        iface.join(args.channelname, args.nickname,resultHandler);
       }
     }
 
@@ -758,7 +778,7 @@ public class ChatService {
       }
 
       public void start(I iface, leave_args args, org.apache.thrift.async.AsyncMethodCallback<Boolean> resultHandler) throws TException {
-        iface.leave(args.channelname,resultHandler);
+        iface.leave(args.channelname, args.nickname,resultHandler);
       }
     }
 
@@ -810,7 +830,7 @@ public class ChatService {
       }
 
       public void start(I iface, sendall_args args, org.apache.thrift.async.AsyncMethodCallback<Boolean> resultHandler) throws TException {
-        iface.sendall(args.message,resultHandler);
+        iface.sendall(args.message, args.nickname,resultHandler);
       }
     }
 
@@ -862,7 +882,7 @@ public class ChatService {
       }
 
       public void start(I iface, sendto_args args, org.apache.thrift.async.AsyncMethodCallback<Boolean> resultHandler) throws TException {
-        iface.sendto(args.message, args.channelname,resultHandler);
+        iface.sendto(args.message, args.channelname, args.nickname,resultHandler);
       }
     }
 
@@ -913,7 +933,7 @@ public class ChatService {
       }
 
       public void start(I iface, getmessage_args args, org.apache.thrift.async.AsyncMethodCallback<List<String>> resultHandler) throws TException {
-        iface.getmessage(resultHandler);
+        iface.getmessage(args.nickname,resultHandler);
       }
     }
 
@@ -1645,6 +1665,7 @@ public class ChatService {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("join_args");
 
     private static final org.apache.thrift.protocol.TField CHANNELNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("channelname", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField NICKNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("nickname", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -1653,10 +1674,12 @@ public class ChatService {
     }
 
     public String channelname; // required
+    public String nickname; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CHANNELNAME((short)1, "channelname");
+      CHANNELNAME((short)1, "channelname"),
+      NICKNAME((short)2, "nickname");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1673,6 +1696,8 @@ public class ChatService {
         switch(fieldId) {
           case 1: // CHANNELNAME
             return CHANNELNAME;
+          case 2: // NICKNAME
+            return NICKNAME;
           default:
             return null;
         }
@@ -1718,6 +1743,8 @@ public class ChatService {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.CHANNELNAME, new org.apache.thrift.meta_data.FieldMetaData("channelname", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.NICKNAME, new org.apache.thrift.meta_data.FieldMetaData("nickname", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(join_args.class, metaDataMap);
     }
@@ -1726,10 +1753,12 @@ public class ChatService {
     }
 
     public join_args(
-      String channelname)
+      String channelname,
+      String nickname)
     {
       this();
       this.channelname = channelname;
+      this.nickname = nickname;
     }
 
     /**
@@ -1738,6 +1767,9 @@ public class ChatService {
     public join_args(join_args other) {
       if (other.isSetChannelname()) {
         this.channelname = other.channelname;
+      }
+      if (other.isSetNickname()) {
+        this.nickname = other.nickname;
       }
     }
 
@@ -1748,6 +1780,7 @@ public class ChatService {
     @Override
     public void clear() {
       this.channelname = null;
+      this.nickname = null;
     }
 
     public String getChannelname() {
@@ -1774,6 +1807,30 @@ public class ChatService {
       }
     }
 
+    public String getNickname() {
+      return this.nickname;
+    }
+
+    public join_args setNickname(String nickname) {
+      this.nickname = nickname;
+      return this;
+    }
+
+    public void unsetNickname() {
+      this.nickname = null;
+    }
+
+    /** Returns true if field nickname is set (has been assigned a value) and false otherwise */
+    public boolean isSetNickname() {
+      return this.nickname != null;
+    }
+
+    public void setNicknameIsSet(boolean value) {
+      if (!value) {
+        this.nickname = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case CHANNELNAME:
@@ -1784,6 +1841,14 @@ public class ChatService {
         }
         break;
 
+      case NICKNAME:
+        if (value == null) {
+          unsetNickname();
+        } else {
+          setNickname((String)value);
+        }
+        break;
+
       }
     }
 
@@ -1791,6 +1856,9 @@ public class ChatService {
       switch (field) {
       case CHANNELNAME:
         return getChannelname();
+
+      case NICKNAME:
+        return getNickname();
 
       }
       throw new IllegalStateException();
@@ -1805,6 +1873,8 @@ public class ChatService {
       switch (field) {
       case CHANNELNAME:
         return isSetChannelname();
+      case NICKNAME:
+        return isSetNickname();
       }
       throw new IllegalStateException();
     }
@@ -1831,6 +1901,15 @@ public class ChatService {
           return false;
       }
 
+      boolean this_present_nickname = true && this.isSetNickname();
+      boolean that_present_nickname = true && that.isSetNickname();
+      if (this_present_nickname || that_present_nickname) {
+        if (!(this_present_nickname && that_present_nickname))
+          return false;
+        if (!this.nickname.equals(that.nickname))
+          return false;
+      }
+
       return true;
     }
 
@@ -1842,6 +1921,11 @@ public class ChatService {
       list.add(present_channelname);
       if (present_channelname)
         list.add(channelname);
+
+      boolean present_nickname = true && (isSetNickname());
+      list.add(present_nickname);
+      if (present_nickname)
+        list.add(nickname);
 
       return list.hashCode();
     }
@@ -1860,6 +1944,16 @@ public class ChatService {
       }
       if (isSetChannelname()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.channelname, other.channelname);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetNickname()).compareTo(other.isSetNickname());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetNickname()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.nickname, other.nickname);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1889,6 +1983,14 @@ public class ChatService {
         sb.append("null");
       } else {
         sb.append(this.channelname);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("nickname:");
+      if (this.nickname == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.nickname);
       }
       first = false;
       sb.append(")");
@@ -1942,6 +2044,14 @@ public class ChatService {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 2: // NICKNAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.nickname = iprot.readString();
+                struct.setNicknameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -1960,6 +2070,11 @@ public class ChatService {
         if (struct.channelname != null) {
           oprot.writeFieldBegin(CHANNELNAME_FIELD_DESC);
           oprot.writeString(struct.channelname);
+          oprot.writeFieldEnd();
+        }
+        if (struct.nickname != null) {
+          oprot.writeFieldBegin(NICKNAME_FIELD_DESC);
+          oprot.writeString(struct.nickname);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -1983,19 +2098,29 @@ public class ChatService {
         if (struct.isSetChannelname()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetNickname()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetChannelname()) {
           oprot.writeString(struct.channelname);
+        }
+        if (struct.isSetNickname()) {
+          oprot.writeString(struct.nickname);
         }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, join_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
+        BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.channelname = iprot.readString();
           struct.setChannelnameIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.nickname = iprot.readString();
+          struct.setNicknameIsSet(true);
         }
       }
     }
@@ -2367,6 +2492,7 @@ public class ChatService {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("leave_args");
 
     private static final org.apache.thrift.protocol.TField CHANNELNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("channelname", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField NICKNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("nickname", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -2375,10 +2501,12 @@ public class ChatService {
     }
 
     public String channelname; // required
+    public String nickname; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      CHANNELNAME((short)1, "channelname");
+      CHANNELNAME((short)1, "channelname"),
+      NICKNAME((short)2, "nickname");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2395,6 +2523,8 @@ public class ChatService {
         switch(fieldId) {
           case 1: // CHANNELNAME
             return CHANNELNAME;
+          case 2: // NICKNAME
+            return NICKNAME;
           default:
             return null;
         }
@@ -2440,6 +2570,8 @@ public class ChatService {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.CHANNELNAME, new org.apache.thrift.meta_data.FieldMetaData("channelname", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.NICKNAME, new org.apache.thrift.meta_data.FieldMetaData("nickname", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(leave_args.class, metaDataMap);
     }
@@ -2448,10 +2580,12 @@ public class ChatService {
     }
 
     public leave_args(
-      String channelname)
+      String channelname,
+      String nickname)
     {
       this();
       this.channelname = channelname;
+      this.nickname = nickname;
     }
 
     /**
@@ -2460,6 +2594,9 @@ public class ChatService {
     public leave_args(leave_args other) {
       if (other.isSetChannelname()) {
         this.channelname = other.channelname;
+      }
+      if (other.isSetNickname()) {
+        this.nickname = other.nickname;
       }
     }
 
@@ -2470,6 +2607,7 @@ public class ChatService {
     @Override
     public void clear() {
       this.channelname = null;
+      this.nickname = null;
     }
 
     public String getChannelname() {
@@ -2496,6 +2634,30 @@ public class ChatService {
       }
     }
 
+    public String getNickname() {
+      return this.nickname;
+    }
+
+    public leave_args setNickname(String nickname) {
+      this.nickname = nickname;
+      return this;
+    }
+
+    public void unsetNickname() {
+      this.nickname = null;
+    }
+
+    /** Returns true if field nickname is set (has been assigned a value) and false otherwise */
+    public boolean isSetNickname() {
+      return this.nickname != null;
+    }
+
+    public void setNicknameIsSet(boolean value) {
+      if (!value) {
+        this.nickname = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case CHANNELNAME:
@@ -2506,6 +2668,14 @@ public class ChatService {
         }
         break;
 
+      case NICKNAME:
+        if (value == null) {
+          unsetNickname();
+        } else {
+          setNickname((String)value);
+        }
+        break;
+
       }
     }
 
@@ -2513,6 +2683,9 @@ public class ChatService {
       switch (field) {
       case CHANNELNAME:
         return getChannelname();
+
+      case NICKNAME:
+        return getNickname();
 
       }
       throw new IllegalStateException();
@@ -2527,6 +2700,8 @@ public class ChatService {
       switch (field) {
       case CHANNELNAME:
         return isSetChannelname();
+      case NICKNAME:
+        return isSetNickname();
       }
       throw new IllegalStateException();
     }
@@ -2553,6 +2728,15 @@ public class ChatService {
           return false;
       }
 
+      boolean this_present_nickname = true && this.isSetNickname();
+      boolean that_present_nickname = true && that.isSetNickname();
+      if (this_present_nickname || that_present_nickname) {
+        if (!(this_present_nickname && that_present_nickname))
+          return false;
+        if (!this.nickname.equals(that.nickname))
+          return false;
+      }
+
       return true;
     }
 
@@ -2564,6 +2748,11 @@ public class ChatService {
       list.add(present_channelname);
       if (present_channelname)
         list.add(channelname);
+
+      boolean present_nickname = true && (isSetNickname());
+      list.add(present_nickname);
+      if (present_nickname)
+        list.add(nickname);
 
       return list.hashCode();
     }
@@ -2582,6 +2771,16 @@ public class ChatService {
       }
       if (isSetChannelname()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.channelname, other.channelname);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetNickname()).compareTo(other.isSetNickname());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetNickname()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.nickname, other.nickname);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2611,6 +2810,14 @@ public class ChatService {
         sb.append("null");
       } else {
         sb.append(this.channelname);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("nickname:");
+      if (this.nickname == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.nickname);
       }
       first = false;
       sb.append(")");
@@ -2664,6 +2871,14 @@ public class ChatService {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 2: // NICKNAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.nickname = iprot.readString();
+                struct.setNicknameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -2682,6 +2897,11 @@ public class ChatService {
         if (struct.channelname != null) {
           oprot.writeFieldBegin(CHANNELNAME_FIELD_DESC);
           oprot.writeString(struct.channelname);
+          oprot.writeFieldEnd();
+        }
+        if (struct.nickname != null) {
+          oprot.writeFieldBegin(NICKNAME_FIELD_DESC);
+          oprot.writeString(struct.nickname);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -2705,19 +2925,29 @@ public class ChatService {
         if (struct.isSetChannelname()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetNickname()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetChannelname()) {
           oprot.writeString(struct.channelname);
+        }
+        if (struct.isSetNickname()) {
+          oprot.writeString(struct.nickname);
         }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, leave_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
+        BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.channelname = iprot.readString();
           struct.setChannelnameIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.nickname = iprot.readString();
+          struct.setNicknameIsSet(true);
         }
       }
     }
@@ -3089,6 +3319,7 @@ public class ChatService {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sendall_args");
 
     private static final org.apache.thrift.protocol.TField MESSAGE_FIELD_DESC = new org.apache.thrift.protocol.TField("message", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField NICKNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("nickname", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -3097,10 +3328,12 @@ public class ChatService {
     }
 
     public String message; // required
+    public String nickname; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      MESSAGE((short)1, "message");
+      MESSAGE((short)1, "message"),
+      NICKNAME((short)2, "nickname");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -3117,6 +3350,8 @@ public class ChatService {
         switch(fieldId) {
           case 1: // MESSAGE
             return MESSAGE;
+          case 2: // NICKNAME
+            return NICKNAME;
           default:
             return null;
         }
@@ -3162,6 +3397,8 @@ public class ChatService {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.MESSAGE, new org.apache.thrift.meta_data.FieldMetaData("message", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.NICKNAME, new org.apache.thrift.meta_data.FieldMetaData("nickname", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendall_args.class, metaDataMap);
     }
@@ -3170,10 +3407,12 @@ public class ChatService {
     }
 
     public sendall_args(
-      String message)
+      String message,
+      String nickname)
     {
       this();
       this.message = message;
+      this.nickname = nickname;
     }
 
     /**
@@ -3182,6 +3421,9 @@ public class ChatService {
     public sendall_args(sendall_args other) {
       if (other.isSetMessage()) {
         this.message = other.message;
+      }
+      if (other.isSetNickname()) {
+        this.nickname = other.nickname;
       }
     }
 
@@ -3192,6 +3434,7 @@ public class ChatService {
     @Override
     public void clear() {
       this.message = null;
+      this.nickname = null;
     }
 
     public String getMessage() {
@@ -3218,6 +3461,30 @@ public class ChatService {
       }
     }
 
+    public String getNickname() {
+      return this.nickname;
+    }
+
+    public sendall_args setNickname(String nickname) {
+      this.nickname = nickname;
+      return this;
+    }
+
+    public void unsetNickname() {
+      this.nickname = null;
+    }
+
+    /** Returns true if field nickname is set (has been assigned a value) and false otherwise */
+    public boolean isSetNickname() {
+      return this.nickname != null;
+    }
+
+    public void setNicknameIsSet(boolean value) {
+      if (!value) {
+        this.nickname = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case MESSAGE:
@@ -3228,6 +3495,14 @@ public class ChatService {
         }
         break;
 
+      case NICKNAME:
+        if (value == null) {
+          unsetNickname();
+        } else {
+          setNickname((String)value);
+        }
+        break;
+
       }
     }
 
@@ -3235,6 +3510,9 @@ public class ChatService {
       switch (field) {
       case MESSAGE:
         return getMessage();
+
+      case NICKNAME:
+        return getNickname();
 
       }
       throw new IllegalStateException();
@@ -3249,6 +3527,8 @@ public class ChatService {
       switch (field) {
       case MESSAGE:
         return isSetMessage();
+      case NICKNAME:
+        return isSetNickname();
       }
       throw new IllegalStateException();
     }
@@ -3275,6 +3555,15 @@ public class ChatService {
           return false;
       }
 
+      boolean this_present_nickname = true && this.isSetNickname();
+      boolean that_present_nickname = true && that.isSetNickname();
+      if (this_present_nickname || that_present_nickname) {
+        if (!(this_present_nickname && that_present_nickname))
+          return false;
+        if (!this.nickname.equals(that.nickname))
+          return false;
+      }
+
       return true;
     }
 
@@ -3286,6 +3575,11 @@ public class ChatService {
       list.add(present_message);
       if (present_message)
         list.add(message);
+
+      boolean present_nickname = true && (isSetNickname());
+      list.add(present_nickname);
+      if (present_nickname)
+        list.add(nickname);
 
       return list.hashCode();
     }
@@ -3304,6 +3598,16 @@ public class ChatService {
       }
       if (isSetMessage()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.message, other.message);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetNickname()).compareTo(other.isSetNickname());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetNickname()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.nickname, other.nickname);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3333,6 +3637,14 @@ public class ChatService {
         sb.append("null");
       } else {
         sb.append(this.message);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("nickname:");
+      if (this.nickname == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.nickname);
       }
       first = false;
       sb.append(")");
@@ -3386,6 +3698,14 @@ public class ChatService {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 2: // NICKNAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.nickname = iprot.readString();
+                struct.setNicknameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -3404,6 +3724,11 @@ public class ChatService {
         if (struct.message != null) {
           oprot.writeFieldBegin(MESSAGE_FIELD_DESC);
           oprot.writeString(struct.message);
+          oprot.writeFieldEnd();
+        }
+        if (struct.nickname != null) {
+          oprot.writeFieldBegin(NICKNAME_FIELD_DESC);
+          oprot.writeString(struct.nickname);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -3427,19 +3752,29 @@ public class ChatService {
         if (struct.isSetMessage()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetNickname()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetMessage()) {
           oprot.writeString(struct.message);
+        }
+        if (struct.isSetNickname()) {
+          oprot.writeString(struct.nickname);
         }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, sendall_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
+        BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.message = iprot.readString();
           struct.setMessageIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.nickname = iprot.readString();
+          struct.setNicknameIsSet(true);
         }
       }
     }
@@ -3812,6 +4147,7 @@ public class ChatService {
 
     private static final org.apache.thrift.protocol.TField MESSAGE_FIELD_DESC = new org.apache.thrift.protocol.TField("message", org.apache.thrift.protocol.TType.STRING, (short)1);
     private static final org.apache.thrift.protocol.TField CHANNELNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("channelname", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField NICKNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("nickname", org.apache.thrift.protocol.TType.STRING, (short)3);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -3821,11 +4157,13 @@ public class ChatService {
 
     public String message; // required
     public String channelname; // required
+    public String nickname; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       MESSAGE((short)1, "message"),
-      CHANNELNAME((short)2, "channelname");
+      CHANNELNAME((short)2, "channelname"),
+      NICKNAME((short)3, "nickname");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -3844,6 +4182,8 @@ public class ChatService {
             return MESSAGE;
           case 2: // CHANNELNAME
             return CHANNELNAME;
+          case 3: // NICKNAME
+            return NICKNAME;
           default:
             return null;
         }
@@ -3891,6 +4231,8 @@ public class ChatService {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.CHANNELNAME, new org.apache.thrift.meta_data.FieldMetaData("channelname", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.NICKNAME, new org.apache.thrift.meta_data.FieldMetaData("nickname", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(sendto_args.class, metaDataMap);
     }
@@ -3900,11 +4242,13 @@ public class ChatService {
 
     public sendto_args(
       String message,
-      String channelname)
+      String channelname,
+      String nickname)
     {
       this();
       this.message = message;
       this.channelname = channelname;
+      this.nickname = nickname;
     }
 
     /**
@@ -3917,6 +4261,9 @@ public class ChatService {
       if (other.isSetChannelname()) {
         this.channelname = other.channelname;
       }
+      if (other.isSetNickname()) {
+        this.nickname = other.nickname;
+      }
     }
 
     public sendto_args deepCopy() {
@@ -3927,6 +4274,7 @@ public class ChatService {
     public void clear() {
       this.message = null;
       this.channelname = null;
+      this.nickname = null;
     }
 
     public String getMessage() {
@@ -3977,6 +4325,30 @@ public class ChatService {
       }
     }
 
+    public String getNickname() {
+      return this.nickname;
+    }
+
+    public sendto_args setNickname(String nickname) {
+      this.nickname = nickname;
+      return this;
+    }
+
+    public void unsetNickname() {
+      this.nickname = null;
+    }
+
+    /** Returns true if field nickname is set (has been assigned a value) and false otherwise */
+    public boolean isSetNickname() {
+      return this.nickname != null;
+    }
+
+    public void setNicknameIsSet(boolean value) {
+      if (!value) {
+        this.nickname = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case MESSAGE:
@@ -3995,6 +4367,14 @@ public class ChatService {
         }
         break;
 
+      case NICKNAME:
+        if (value == null) {
+          unsetNickname();
+        } else {
+          setNickname((String)value);
+        }
+        break;
+
       }
     }
 
@@ -4005,6 +4385,9 @@ public class ChatService {
 
       case CHANNELNAME:
         return getChannelname();
+
+      case NICKNAME:
+        return getNickname();
 
       }
       throw new IllegalStateException();
@@ -4021,6 +4404,8 @@ public class ChatService {
         return isSetMessage();
       case CHANNELNAME:
         return isSetChannelname();
+      case NICKNAME:
+        return isSetNickname();
       }
       throw new IllegalStateException();
     }
@@ -4056,6 +4441,15 @@ public class ChatService {
           return false;
       }
 
+      boolean this_present_nickname = true && this.isSetNickname();
+      boolean that_present_nickname = true && that.isSetNickname();
+      if (this_present_nickname || that_present_nickname) {
+        if (!(this_present_nickname && that_present_nickname))
+          return false;
+        if (!this.nickname.equals(that.nickname))
+          return false;
+      }
+
       return true;
     }
 
@@ -4072,6 +4466,11 @@ public class ChatService {
       list.add(present_channelname);
       if (present_channelname)
         list.add(channelname);
+
+      boolean present_nickname = true && (isSetNickname());
+      list.add(present_nickname);
+      if (present_nickname)
+        list.add(nickname);
 
       return list.hashCode();
     }
@@ -4100,6 +4499,16 @@ public class ChatService {
       }
       if (isSetChannelname()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.channelname, other.channelname);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetNickname()).compareTo(other.isSetNickname());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetNickname()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.nickname, other.nickname);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4137,6 +4546,14 @@ public class ChatService {
         sb.append("null");
       } else {
         sb.append(this.channelname);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("nickname:");
+      if (this.nickname == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.nickname);
       }
       first = false;
       sb.append(")");
@@ -4198,6 +4615,14 @@ public class ChatService {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 3: // NICKNAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.nickname = iprot.readString();
+                struct.setNicknameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -4221,6 +4646,11 @@ public class ChatService {
         if (struct.channelname != null) {
           oprot.writeFieldBegin(CHANNELNAME_FIELD_DESC);
           oprot.writeString(struct.channelname);
+          oprot.writeFieldEnd();
+        }
+        if (struct.nickname != null) {
+          oprot.writeFieldBegin(NICKNAME_FIELD_DESC);
+          oprot.writeString(struct.nickname);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -4247,19 +4677,25 @@ public class ChatService {
         if (struct.isSetChannelname()) {
           optionals.set(1);
         }
-        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetNickname()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
         if (struct.isSetMessage()) {
           oprot.writeString(struct.message);
         }
         if (struct.isSetChannelname()) {
           oprot.writeString(struct.channelname);
         }
+        if (struct.isSetNickname()) {
+          oprot.writeString(struct.nickname);
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, sendto_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(2);
+        BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
           struct.message = iprot.readString();
           struct.setMessageIsSet(true);
@@ -4267,6 +4703,10 @@ public class ChatService {
         if (incoming.get(1)) {
           struct.channelname = iprot.readString();
           struct.setChannelnameIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.nickname = iprot.readString();
+          struct.setNicknameIsSet(true);
         }
       }
     }
@@ -4637,6 +5077,7 @@ public class ChatService {
   public static class getmessage_args implements org.apache.thrift.TBase<getmessage_args, getmessage_args._Fields>, java.io.Serializable, Cloneable, Comparable<getmessage_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getmessage_args");
 
+    private static final org.apache.thrift.protocol.TField NICKNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("nickname", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -4644,10 +5085,11 @@ public class ChatService {
       schemes.put(TupleScheme.class, new getmessage_argsTupleSchemeFactory());
     }
 
+    public String nickname; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
+      NICKNAME((short)1, "nickname");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -4662,6 +5104,8 @@ public class ChatService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
+          case 1: // NICKNAME
+            return NICKNAME;
           default:
             return null;
         }
@@ -4700,9 +5144,13 @@ public class ChatService {
         return _fieldName;
       }
     }
+
+    // isset id assignments
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.NICKNAME, new org.apache.thrift.meta_data.FieldMetaData("nickname", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getmessage_args.class, metaDataMap);
     }
@@ -4710,10 +5158,20 @@ public class ChatService {
     public getmessage_args() {
     }
 
+    public getmessage_args(
+      String nickname)
+    {
+      this();
+      this.nickname = nickname;
+    }
+
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public getmessage_args(getmessage_args other) {
+      if (other.isSetNickname()) {
+        this.nickname = other.nickname;
+      }
     }
 
     public getmessage_args deepCopy() {
@@ -4722,15 +5180,51 @@ public class ChatService {
 
     @Override
     public void clear() {
+      this.nickname = null;
+    }
+
+    public String getNickname() {
+      return this.nickname;
+    }
+
+    public getmessage_args setNickname(String nickname) {
+      this.nickname = nickname;
+      return this;
+    }
+
+    public void unsetNickname() {
+      this.nickname = null;
+    }
+
+    /** Returns true if field nickname is set (has been assigned a value) and false otherwise */
+    public boolean isSetNickname() {
+      return this.nickname != null;
+    }
+
+    public void setNicknameIsSet(boolean value) {
+      if (!value) {
+        this.nickname = null;
+      }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
+      case NICKNAME:
+        if (value == null) {
+          unsetNickname();
+        } else {
+          setNickname((String)value);
+        }
+        break;
+
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
+      case NICKNAME:
+        return getNickname();
+
       }
       throw new IllegalStateException();
     }
@@ -4742,6 +5236,8 @@ public class ChatService {
       }
 
       switch (field) {
+      case NICKNAME:
+        return isSetNickname();
       }
       throw new IllegalStateException();
     }
@@ -4759,12 +5255,26 @@ public class ChatService {
       if (that == null)
         return false;
 
+      boolean this_present_nickname = true && this.isSetNickname();
+      boolean that_present_nickname = true && that.isSetNickname();
+      if (this_present_nickname || that_present_nickname) {
+        if (!(this_present_nickname && that_present_nickname))
+          return false;
+        if (!this.nickname.equals(that.nickname))
+          return false;
+      }
+
       return true;
     }
 
     @Override
     public int hashCode() {
       List<Object> list = new ArrayList<Object>();
+
+      boolean present_nickname = true && (isSetNickname());
+      list.add(present_nickname);
+      if (present_nickname)
+        list.add(nickname);
 
       return list.hashCode();
     }
@@ -4777,6 +5287,16 @@ public class ChatService {
 
       int lastComparison = 0;
 
+      lastComparison = Boolean.valueOf(isSetNickname()).compareTo(other.isSetNickname());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetNickname()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.nickname, other.nickname);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -4797,6 +5317,13 @@ public class ChatService {
       StringBuilder sb = new StringBuilder("getmessage_args(");
       boolean first = true;
 
+      sb.append("nickname:");
+      if (this.nickname == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.nickname);
+      }
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -4840,6 +5367,14 @@ public class ChatService {
             break;
           }
           switch (schemeField.id) {
+            case 1: // NICKNAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.nickname = iprot.readString();
+                struct.setNicknameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -4855,6 +5390,11 @@ public class ChatService {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.nickname != null) {
+          oprot.writeFieldBegin(NICKNAME_FIELD_DESC);
+          oprot.writeString(struct.nickname);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -4872,11 +5412,24 @@ public class ChatService {
       @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, getmessage_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetNickname()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetNickname()) {
+          oprot.writeString(struct.nickname);
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, getmessage_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.nickname = iprot.readString();
+          struct.setNicknameIsSet(true);
+        }
       }
     }
 
