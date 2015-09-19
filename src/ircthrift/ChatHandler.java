@@ -41,10 +41,12 @@ public class ChatHandler implements ChatService.Iface{
     @Override
     public boolean join(String channelname, String nickname) throws TException {
         if (user_membership.containsKey(nickname)){
-            if (!user_membership.get(nickname).contains(channelname))
+            if (user_membership.get(nickname).contains(channelname)){
+                return false;
+            }else{
                 user_membership.get(nickname).add(channelname);
-            
-            return true;
+                return true;
+            }
         }else{
             return false;
         }
@@ -53,8 +55,12 @@ public class ChatHandler implements ChatService.Iface{
     @Override
     public boolean leave(String channelname, String nickname) throws TException {
         if (user_membership.containsKey(nickname)){
-            user_membership.get(nickname).remove(channelname);
-            return true;
+            if (user_membership.get(nickname).contains(channelname)){
+                user_membership.get(nickname).remove(channelname);
+                return true;
+            }else{
+                return false;
+            }
         }else{
             return false;
         }
@@ -84,7 +90,9 @@ public class ChatHandler implements ChatService.Iface{
 
     @Override
     public List<String> getmessage(String nickname) throws TException {
-        return user_message.get(nickname);
+        List<String> message = new ArrayList<>(user_message.get(nickname));
+        user_message.get(nickname).clear();
+        return message;
     }
 
 }

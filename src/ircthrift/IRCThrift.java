@@ -34,19 +34,73 @@ public class IRCThrift {
         TProtocol protocol = new  TBinaryProtocol(new TFramedTransport(transport));
         ChatService.Client client = new ChatService.Client(protocol);
         
-        client.nick("ASS");
-        
-        client.join("KURATOR123", "ASS");
-        client.sendall("Coba AA", "ASS");
-        client.sendall("Mantab", "ASS");
-        
+        String nick = "", command = "";
         Scanner scn = new Scanner(System.in);
         
-        scn.nextInt();
+        System.out.println("Welcome to IRCThrift Chat Client. (c) 2015 by Andre Susanto 13512028");
+        System.out.println("Please choose nick by using /nick <your nick>");
         
-        List<String> msg = client.getmessage("ASS");
-        for (int i = 0; i < msg.size(); i++)
-            System.out.println(msg.get(i));
+        while( !(command = scn.next()).equals("/exit") ) {
+            if (nick.equals("")){
+                if (command.equals("/nick")){
+                    String userPickNick = scn.next();
+                    if (client.nick(userPickNick)){
+                        nick = userPickNick;
+                        System.out.println("Nick changed to " + nick);
+                    }else{
+                        System.out.println("Nick " + nick + " is used by someone else ... Please choose another");
+                    }
+                }else{
+                    System.out.println("Please select you nick by using /nick <nickname>");
+                }
+            }else{
+                if (command.equals("/join")){
+                    String channelName = scn.next();
+                    if (client.join(channelName, nick)){
+                        System.out.println("You are now a member of #" + channelName);
+                    }else{
+                        System.out.println("You are already a member of #" + channelName);
+                    }
+                    
+                }else if (command.equals("/leave")){
+                    String channelName = scn.next();
+                    if (client.leave(channelName, nick)){
+                        System.out.println("You are out of #" + channelName);
+                    }else{
+                        System.out.println("You are not a member of #" + channelName);
+                    }
+                }else if (command.equals("/read")){
+                    List<String> messages = client.getmessage(nick);
+                    if (messages.size() == 0){
+                        System.out.println("No new messages.");
+                    }else{
+                        System.out.println("=================NEW MESSAGES=================");
+                        for (String message : messages){
+                            System.out.println(message);
+                        }
+                        System.out.println("==============================================");
+                    }
+                }else{
+                    StringBuffer messageBuffer = new StringBuffer();
+                    if (command.substring(0, 1).equals("@")){
+                        messageBuffer.append(scn.nextLine());
+                        messageBuffer.trimToSize();
+                        
+                        client.sendto(messageBuffer.toString(), command.substring(1, command.length()), nick);
+                        System.out.println("Message sent to " + command.substring(1, command.length()));
+                    }else{
+                        messageBuffer.append(command);
+                        messageBuffer.append(scn.nextLine());
+                        messageBuffer.trimToSize();
+                        
+                        client.sendall(messageBuffer.toString(), nick);
+                        System.out.println("Message sent to all #channel.");
+                    }
+                }
+            }
+        }
+        
+        System.out.println("Bye bye!");
     }
     
 }
