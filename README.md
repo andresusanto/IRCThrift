@@ -31,7 +31,7 @@ I have tried several tests to this project as following:
 ![IRC Thrift](/../screenshoot/screenshoots/server.JPG?raw=true "IRC Thrift")
 
 ### Two client test
-![IRC Thrift](/../screenshoot/screenshoots/server.JPG?raw=true "IRC Thrift")
+![IRC Thrift](/../screenshoot/screenshoots/client-test.JPG?raw=true "IRC Thrift")
 
 1. First client logged in into server and select a nick. The second client did so.
 2. First client joined #ITB and #Crowd, but second client only joined #ITB.
